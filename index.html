@@ -8,19 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="mtcs.css">
 <style>
-@font-face { font-family: "MTCS Sans"; src: url("web/MTCSSans-Light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
-@font-face { font-family: "MTCS Sans"; src: url("web/MTCSSans-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "MTCS Sans"; src: url("web/MTCSSans-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
-@font-face { font-family: "MTCS Sans"; src: url("web/MTCSSans-SemiBold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "MTCS Sans"; src: url("web/MTCSSans-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
-@font-face { font-family: "MTCS Sans"; src: url("web/MTCSSans-ExtraBold.woff2") format("woff2"); font-weight: 800; font-display: swap; }
-@font-face { font-family: "MTCS Serif"; src: url("web/MTCSSerif-Light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
-@font-face { font-family: "MTCS Serif"; src: url("web/MTCSSerif-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "MTCS Serif"; src: url("web/MTCSSerif-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
-@font-face { font-family: "MTCS Serif"; src: url("web/MTCSSerif-SemiBold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "MTCS Serif"; src: url("web/MTCSSerif-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
-@font-face { font-family: "MTCS Serif"; src: url("web/MTCSSerif-ExtraBold.woff2") format("woff2"); font-weight: 800; font-display: swap; }
 
 /* Layout: 1120px 한 기둥. 첫 화면은 발표 슬라이드처럼 두 서체를 나란히 보여 주고,
    아래로 서체 → 써보기 → 다른 점 → 사용 범위 → 다운로드.
@@ -191,6 +180,11 @@ table.usage { width: 100%; border-collapse: collapse; }
 .files a small { font: 400 12px/1 var(--mono); color: var(--muted); }
 .files a:hover { border-color: var(--accent); color: var(--accent); }
 .notes { margin: 18px 0 0; padding-left: 1.2em; color: var(--muted); }
+.code-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 36px 0 10px; }
+.code-head h3 { margin: 0; font-size: 20px; }
+.copy { height: 32px; padding-inline: 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); font: 400 14px/1 var(--sans); cursor: pointer; }
+.copy:hover { border-color: var(--fg); }
+pre.code { margin: 0; padding: 18px 20px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); font: 400 13px/1.65 var(--mono); overflow-x: auto; white-space: pre; }
 @media (max-width: 820px) { .dl-grid { grid-template-columns: 1fr; } }
 
 /* 바닥글 */
@@ -208,6 +202,7 @@ table.usage { width: 100%; border-collapse: collapse; }
       <a href="#try">써보기</a>
       <a href="#diff">다른 점</a>
       <a href="#license">사용 범위</a>
+      <a href="#webfont">웹폰트</a>
       <a class="nav-dl" href="#download">다운로드</a>
     </nav>
   </div>
@@ -407,6 +402,20 @@ table.usage { width: 100%; border-collapse: collapse; }
         <li>받은 파일을 더블클릭한 뒤 설치를 누르세요. 설치한 뒤에는 파워포인트·워드를 다시 실행해야 목록에 나타납니다.</li>
         <li>폰트를 다시 나눠 줄 때는 <a href="OFL.txt" download>OFL.txt</a>를 함께 넣어 주세요.</li>
       </ul>
+      <div class="code-head" id="webfont">
+        <h3>웹폰트 사용법</h3>
+        <button class="copy" type="button" data-target="cssCode">코드 복사</button>
+      </div>
+      <pre class="code" id="cssCode">&lt;link rel="stylesheet" href="https://ssayuz.github.io/mtcs/mtcs.css"&gt;
+
+&lt;style&gt;
+  body { font-family: "MTCS Sans", sans-serif; }
+  h1 { font-family: "MTCS Serif", serif; font-weight: 700; }
+&lt;/style&gt;</pre>
+      <ul class="notes">
+        <li>이 코드를 HTML의 head에 넣으면 고딕과 명조의 6개 굵기를 모두 쓸 수 있습니다.</li>
+        <li>먼저 자주 쓰는 한글 2,350자와 영문을 받고, 드문 글자가 나올 때만 나머지 글자 파일을 받습니다. 한글 11,172자를 모두 표시합니다.</li>
+      </ul>
     </div>
   </section>
 </main>
@@ -444,6 +453,28 @@ table.usage { width: 100%; border-collapse: collapse; }
     });
   });
   ta.style.fontWeight = "700";
+
+  // 코드 복사
+  $$(".copy").forEach(function (btn) {
+    var label = btn.textContent;
+    btn.addEventListener("click", function () {
+      var target = document.getElementById(btn.dataset.target);
+      var done = function (msg) {
+        btn.textContent = msg;
+        setTimeout(function () { btn.textContent = label; }, 1800);
+      };
+      var fallback = function () {
+        var r = document.createRange(), s = window.getSelection();
+        r.selectNodeContents(target);
+        s.removeAllRanges();
+        s.addRange(r);
+        done("선택됨, Ctrl+C");
+      };
+      try {
+        navigator.clipboard.writeText(target.textContent).then(function () { done("복사됨"); }, fallback);
+      } catch (e) { fallback(); }
+    });
+  });
 
 })();
 </script>

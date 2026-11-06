@@ -11,3 +11,9 @@
 - 수정: 이윤재
 
 폰트 파일은 `fonts/` 폴더에 있습니다.
+
+웹폰트로 쓰려면 HTML의 head에 아래 한 줄을 넣습니다.
+
+```html
+<link rel="stylesheet" href="https://ssayuz.github.io/mtcs/mtcs.css">
+```
